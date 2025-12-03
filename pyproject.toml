@@ -6,3 +6,22 @@ ignore_missing_imports = true
 
 [tool.numpydoc_validation]
 checks = ["all", "EX01", "SA01", "ES01", "GL01"]
+
+# don't report on objects that match any of these regex
+exclude = [
+    '\.undocumented_method$',
+    '\.__repr__$',
+]
+
+# don't process filepaths that match these regex
+exclude_files = [
+    '^tests/.*',
+    '^module/gui.*',
+]
+
+# override SS05 to allow docstrings starting with these words
+override_SS05 = [
+    '^Process ',
+    '^Assess ',
+    '^Access ',
+]
