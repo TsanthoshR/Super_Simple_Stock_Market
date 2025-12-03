@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import List
 
-from stockmarket.database.enums import StockType, TradeType
+from stockmarket.stock.enums import StockType, TradeType
 
 
 class Stock(ABC):
