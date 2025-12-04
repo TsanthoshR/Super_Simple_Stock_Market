@@ -6,23 +6,94 @@ default_language_version:
   python: python3.11
 
 repos:
+
+
+# - repo: local
+#   hooks:
+#   - id: mypy
+#     name: mypy
+#     entry: python -m mypy --explicit-package-bases=stockmarket=src --show-error-codes
+#     language: system
+#     types: [python]
+#     verbose: true
+#     pass_filenames: true
+#     # args: [ "--show-error-codes", "--config-file", "pyproject.toml",]
+
+- repo: local
+  hooks:
+  - id: mypy
+    name: mypy
+    # Run in package mode and don't let pre-commit append filenames
+    entry: mypy ./src/
+    language: system
+    types: [python]
+    verbose: true
+    pass_filenames: false
+    args:
+      - --show-error-codes
+      - --config-file
+      -  pyproject.toml
+
+- repo: local
+  hooks:
+  - id: mypy-tests
+    name: mypy-tests
+    entry: mypy ./tests/
+    language: system
+    types: [python]
+    verbose: true
+    pass_filenames: false
+
+
+
+
+  - id: interrogate
+    name: interrogate
+    entry: interrogate
+    language: system
+    types: [python]
+    args:
+      - --fail-under=80
+      - --verbose
+
+
+
+  - id: ruff
+    name: ruff-format
+    entry: ruff format
+    language: system
+    types: [python]
+
+  - id: ruff
+    name: ruff linter
+    entry: ruff check
+    language: system
+    types: [python]
+    args: [--fix, --show-fixes, --exit-non-zero-on-fix] # Optionally: Automatically fix issues
+
+
+
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v6.0.0
   hooks:
   - id: trailing-whitespace
   - id: end-of-file-fixer
-  - id: mixed-line-ending
+  - id: check-docstring-first
+  - id: check-json
+  - id: check-added-large-files
+  - id: debug-statements
+  - id: requirements-txt-fixer
   - id: check-yaml
   - id: sort-simple-yaml
   - id: check-added-large-files
 
-- repo: https://github.com/psf/black
-  rev: 25.11.0
-  hooks:
-  - id: black
-    language_version: python3.11
-    args:
-    - --config=pyproject.toml
+# - repo: https://github.com/psf/black
+#   rev: 25.11.0
+#   hooks:
+#   - id: black
+#     language_version: python3.11
+#     args:
+#     - --config=pyproject.toml
 
 - repo: https://github.com/PyCQA/isort
   rev: 7.0.0
@@ -38,15 +109,16 @@ repos:
     args:
     - --config=.flake8   # not pyproject.toml because of max-line-length issue
 
-- repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.19.0
-  hooks:
-  - id: mypy
-    additional_dependencies: [
-      types-requests,
-    ]
-    args:
-    - --config=pyproject.toml
+# - repo: https://github.com/pre-commit/mirrors-mypy
+#   rev: v1.19.0
+#   hooks:
+#   - id: mypy
+#     additional_dependencies: [
+#       types-requests,
+#     ]
+#     args:
+#     - --config-file=pyproject.toml
+#     - --explicit-package-bases=src
 
 - repo: https://github.com/pycqa/bandit
   rev: 1.9.2

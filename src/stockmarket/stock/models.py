@@ -11,7 +11,8 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import List
 
-from stockmarket.stock.enums import StockType, TradeType
+from src.stockmarket.stock.enums import StockType, TradeType
+from src.stockmarket.stock.exceptions import NoTradeError
 
 
 class Stock(ABC):
@@ -100,7 +101,11 @@ class Stock(ABC):
         return price / dividend
 
     def record_trade(
-        self, trade_type: TradeType, quantity: int, price: float, timestamp: datetime | None = None
+        self,
+        trade_type: TradeType,
+        quantity: int,
+        price: float,
+        timestamp: datetime | None = None,
     ) -> "Trade":  # Task a, iii
         """Record a trade for the stock.
 
@@ -164,22 +169,54 @@ class Stock(ABC):
             The volume weighted stock price computed from recent trades.
         """
         recent_trades = self.get_trades_in_last_minutes(minutes)
-        total_trade_price_quantity = sum(trade.price * trade.quantity for trade in recent_trades)
+        total_trade_price_quantity = sum(
+            trade.price * trade.quantity for trade in recent_trades
+        )
         total_quantity = sum(trade.quantity for trade in recent_trades)
 
         if total_quantity == 0:
-            raise ValueError(
+            raise NoTradeError(
                 "No trades in the given time frame to calculate Volume Weighted Stock Price."
             )
 
         return total_trade_price_quantity / total_quantity
+
+    def __repr__(self) -> str:
+        return (
+            f"Stock(symbol={self.symbol}, stock_type={self.stock_type.name}, "
+            f"last_dividend={self.last_dividend}, fixed_dividend={self.fixed_dividend}, "
+            f"par_value={self.par_value})"
+        )
 
 
 class CommonStock(Stock):
     """Class representing a common stock.
 
     Common stocks calculate dividend yield from last_dividend.
+
+    Parameters
+    ----------
+    symbol : str
+        Ticker symbol for the stock.
+    last_dividend : float
+        The last dividend value for the stock.
+    par_value : float
+        The par value of the stock.
     """
+
+    def __init__(self, symbol: str, last_dividend: float, par_value: float):
+        """Initialize a CommonStock instance.
+
+        Parameters
+        ----------
+        symbol : str
+            Ticker symbol for the stock.
+        last_dividend : float
+            The last dividend value for the stock.
+        par_value : float
+            The par value of the stock.
+        """
+        super().__init__(symbol, StockType.COMMON, last_dividend, 0.0, par_value)
 
     def calculate_dividend_yield(self, price: float) -> float:
         """Calculate the dividend yield for common stock.
@@ -203,10 +240,37 @@ class PreferredStock(Stock):
     """Class representing a preferred stock.
 
     Preferred stocks use fixed_dividend and par_value to compute yield.
+
+    Parameters
+    ----------
+    symbol : str
+        Ticker symbol for the stock.
+    last_dividend : float
+        The last dividend value for the stock.
+    fixed_dividend : float
+        The fixed dividend (as a decimal) for preferred stock.
+    par_value : float
+        The par value of the stock.
     """
 
-    # def __init__(self, symbol, stock_type, last_dividend, fixed_dividend, par_value):
-    #     super().__init__(symbol, stock_type, last_dividend, fixed_dividend, par_value)
+    def __init__(self, symbol, last_dividend, fixed_dividend, par_value):
+        """Initialize a PreferredStock instance.
+
+        Parameters
+        ----------
+        symbol : str
+            Ticker symbol for the stock.
+        last_dividend : float
+            The last dividend value for the stock.
+        fixed_dividend : float
+            The fixed dividend (as a decimal) for preferred stock.
+        par_value : float
+            The par value of the stock.
+        """
+        super().__init__(
+            symbol, StockType.PREFERRED, last_dividend, fixed_dividend, par_value
+        )
+
     #     self.fixed_dividend = float(fixed_dividend)  # as a decimal (e.g., 0.02 for 2%)
 
     def calculate_dividend_yield(self, price: float) -> float:

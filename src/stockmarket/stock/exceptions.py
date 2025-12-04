@@ -11,3 +11,15 @@ class InvalidTradeError(Exception):
     """Exception raised for invalid trade operations."""
 
     pass
+
+
+class NoTradeError(Exception):
+    """Exception raised when there are no trades to perform an operation."""
+
+    pass
+
+
+class InvalidTradeTypeError(Exception):
+    """Exception raised for invalid trade type."""
+
+    pass

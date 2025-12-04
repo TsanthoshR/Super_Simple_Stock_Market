@@ -2,7 +2,15 @@
 
 from math import prod
 
-from stockmarket.stock.models import CommonStock, PreferredStock, Stock
+from my_logger import daily_logger
+from src.stockmarket.stock.enums import TradeType
+from src.stockmarket.stock.exceptions import InvalidTradeError
+from src.stockmarket.stock.models import (
+    CommonStock,
+    NoTradeError,
+    PreferredStock,
+    Stock,
+)
 
 
 class GBCE:
@@ -11,12 +19,15 @@ class GBCE:
     def __init__(self):
         """Initialize the GBCE market."""
         self.stocks = {
-            "TEA": CommonStock("TEA", 0, 100),
-            "POP": CommonStock("POP", 8, 100),
-            "ALE": CommonStock("ALE", 23, 60),
-            "GIN": PreferredStock("GIN", 8, 0.02, 100),
-            "JOE": CommonStock("JOE", 13, 250),
+            "TEA": CommonStock(symbol="TEA", last_dividend=0, par_value=100),
+            "POP": CommonStock(symbol="POP", last_dividend=8, par_value=100),
+            "ALE": CommonStock(symbol="ALE", last_dividend=23, par_value=60),
+            "GIN": PreferredStock(
+                symbol="GIN", last_dividend=8, fixed_dividend=0.02, par_value=100
+            ),
+            "JOE": CommonStock(symbol="JOE", last_dividend=13, par_value=250),
         }
+        daily_logger.info("Initialized GBCE market with default stocks.")
 
     def add_Stock(self, stock: Stock) -> None:
         """Add a stock to the GBCE market.
@@ -53,6 +64,31 @@ class GBCE:
         """
         return self.stocks.get(symbol)
 
+    def record_trade(
+        self, symbol: str, trade_type: TradeType, quantity: int, price: float
+    ) -> None:
+        """Record a trade for a given stock.
+
+        Parameters
+        ----------
+        symbol : str
+            The ticker symbol of the stock.
+        trade_type : str
+            The type of trade ('buy' or 'sell').
+        quantity : int
+            The quantity of shares traded.
+        price : float
+            The price at which the shares were traded.
+        """
+        if quantity <= 0:
+            raise InvalidTradeError("Trade quantity must be greater than zero.")
+
+        stock = self.get_stock(symbol)
+        if stock:
+            stock.record_trade(trade_type, quantity, price)
+        else:
+            raise KeyError(f"Stock with symbol '{symbol}' not found in the market.")
+
     def calculate_gbce_all_share_index(self) -> float:
         """Calculate the GBCE All Share Index using the geometric mean of stock prices.
 
@@ -61,11 +97,15 @@ class GBCE:
         float
             The GBCE All Share Index.
         """
-        prices = [
-            stock.calculate_volume_weighted_stock_price()
-            for stock in self.stocks.values()
-            if stock.calculate_volume_weighted_stock_price() > 0
-        ]
+        prices = []
+        for stock in self.stocks.values():
+            try:
+                price = stock.calculate_volume_weighted_stock_price()
+            except NoTradeError:
+                # Skip stocks with no trades recorded
+                continue
+            if price > 0:
+                prices.append(price)
         if not prices:
             return 0.0
 
