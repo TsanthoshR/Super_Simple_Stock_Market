@@ -11,7 +11,7 @@ use pre-commit hooks, debug common issues, and contribute.
 
 ---
 
-\## Project overview
+## Project overview
 
 The project implements a tiny stock market simulation with the following responsibilities:
 
@@ -27,7 +27,7 @@ The project implements a tiny stock market simulation with the following respons
 
 ---
 
-\## Repository layout
+## Repository layout
 
 Top-level (important files/folders):
 
@@ -57,7 +57,7 @@ Key modules :
 
 ---
 
-\## Prerequisites
+## Prerequisites
 
 \- Python 3.11 (project tested on Python 3.11)
 
@@ -67,7 +67,7 @@ Key modules :
 
 ---
 
-\## Setup (Windows PowerShell example)
+## Setup (Windows PowerShell example)
 
 1\. Create and activate a virtual environment (if not already created):
 
@@ -119,7 +119,7 @@ Key modules :
 
 ---
 
-\## Running the library and quick checks
+## Running the library and quick checks
 
 You can experiment from Python REPL with the package installed (editable install recommended):
 
@@ -145,7 +145,7 @@ python -m unittest discover -s tests -p "test\_\*.py"
 
 ---
 
-\## Code style, linters and pre-commit hooks
+## Code style, linters and pre-commit hooks
 
 This repository uses pre-commit to run several checks automatically before commits. The configured tools include (but may vary):
 
@@ -187,7 +187,7 @@ mypy -p stockmarket --config-file pyproject.toml --explicit-package-bases=stockm
 
 ---
 
-\## Documentation and docstring validation
+## Documentation and docstring validation
 
 This project uses numpydoc/interrogate to validate docstrings and measure docstring coverage.
 
@@ -211,7 +211,7 @@ Add docstrings in numpydoc style (Parameters / Returns sections) for public API 
 
 ---
 
-\## Coverage
+## Coverage
 
 Run tests under coverage and generate a report:
 
