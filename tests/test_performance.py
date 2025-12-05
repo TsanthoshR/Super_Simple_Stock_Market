@@ -4,13 +4,14 @@ import timeit
 import unittest
 
 from src.stockmarket.exchange.market import GBCE
+from src.stockmarket.stock.enums import TradeType
 from src.stockmarket.stock.models import CommonStock
 
 
 class TestGBCEPerformance(unittest.TestCase):
     """Performance tests for GBCE market operations."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.market = GBCE()
         self.stock_symbols = [f"TEST{i}" for i in range(100)]
 
@@ -21,12 +22,12 @@ class TestGBCEPerformance(unittest.TestCase):
     def test_record_trade_performance(self):
         """Test performance of recording trades."""
 
-        def record_trades():
+        def record_trades() -> None:
             """Record trades for all test stocks."""
             for symbol in self.stock_symbols:
                 self.market.record_trade(
                     symbol=symbol,
-                    trade_type="BUY",
+                    trade_type=TradeType.BUY,
                     quantity=10,
                     price=100.0,
                 )
@@ -42,7 +43,7 @@ class TestGBCEPerformance(unittest.TestCase):
         for symbol in self.stock_symbols:
             self.market.record_trade(
                 symbol=symbol,
-                trade_type="BUY",
+                trade_type=TradeType.BUY,
                 quantity=10,
                 price=100.0,
             )

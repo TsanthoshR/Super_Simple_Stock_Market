@@ -253,7 +253,9 @@ class PreferredStock(Stock):
         The par value of the stock.
     """
 
-    def __init__(self, symbol, last_dividend, fixed_dividend, par_value):
+    def __init__(
+        self, symbol: str, last_dividend: float, fixed_dividend: float, par_value: float
+    ):
         """Initialize a PreferredStock instance.
 
         Parameters

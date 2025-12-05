@@ -31,6 +31,9 @@ repos:
     pass_filenames: false
     args:
       - --show-error-codes
+      - --disallow-untyped-defs
+      - --disallow-incomplete-defs
+      - --disallow-untyped-calls
       - --config-file
       -  pyproject.toml
 
@@ -43,8 +46,6 @@ repos:
     types: [python]
     verbose: true
     pass_filenames: false
-
-
 
 
   - id: interrogate
@@ -87,6 +88,8 @@ repos:
   - id: sort-simple-yaml
   - id: check-added-large-files
 
+
+
 # - repo: https://github.com/psf/black
 #   rev: 25.11.0
 #   hooks:
@@ -94,6 +97,12 @@ repos:
 #     language_version: python3.11
 #     args:
 #     - --config=pyproject.toml
+
+- repo: https://github.com/asottile/pyupgrade
+  rev: v3.17.0
+  hooks:
+  - id: pyupgrade
+
 
 - repo: https://github.com/PyCQA/isort
   rev: 7.0.0

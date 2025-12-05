@@ -16,7 +16,7 @@ from src.stockmarket.stock.models import (
 class GBCE:
     """Class representing the Global Beverage Corporation Exchange (GBCE) market."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the GBCE market."""
         self.stocks = {
             "TEA": CommonStock(symbol="TEA", last_dividend=0, par_value=100),
@@ -49,7 +49,7 @@ class GBCE:
         """
         return list(self.stocks.values())  # test with __repr__ method
 
-    def get_stock(self, symbol: str) -> Stock:
+    def get_stock(self, symbol: str) -> Stock | None:
         """Retrieve a stock by its symbol.
 
         Parameters
