@@ -73,37 +73,36 @@ Key modules :
 
 ```powershell
 
-&nbsp;  python -m venv venv
+python -m venv venv
 
-&nbsp;  .\\venv\\Scripts\\Activate.ps1
+.\\venv\\Scripts\\Activate.ps1
 
 ```
 
 2\. Upgrade pip and install dependencies (if `requirements.txt` exists):
 
 ```powershell
+python -m pip install -U pip
 
-&nbsp;  python -m pip install -U pip
-
-&nbsp;  pip install -r requirements.txt
+pip install -r requirements.txt
 
 ```
 
 4\. Install development tools manually (if not installed through requirements):
 
-&nbsp;  ```powershell
+```powershell
 
-&nbsp;  pip install pre-commit pytest coverage mypy black isort flake8 interrogate ruff
+pip install pre-commit pytest coverage mypy black isort flake8 interrogate ruff
 
-&nbsp;  ```
+```
 
 5\. Install and enable pre-commit hooks (this will install hooks into `.git/hooks`):
 
 ```powershell
 
-&nbsp;  pre-commit install
+pre-commit install
 
-&nbsp;  pre-commit install --hook-type commit-msg
+pre-commit install --hook-type commit-msg
 
 ```
 
