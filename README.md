@@ -71,33 +71,23 @@ Key modules :
 
 1\. Create and activate a virtual environment (if not already created):
 
-&nbsp;  ```powershell
+```powershell
 
 &nbsp;  python -m venv venv
 
 &nbsp;  .\\venv\\Scripts\\Activate.ps1
 
-&nbsp;  ```
+```
 
 2\. Upgrade pip and install dependencies (if `requirements.txt` exists):
 
-&nbsp;  ```powershell
+```powershell
 
 &nbsp;  python -m pip install -U pip
 
 &nbsp;  pip install -r requirements.txt
 
-&nbsp;  ```
-
-3\. (Recommended) Install the package in editable mode so imports resolve consistently:
-
-&nbsp;  ```powershell
-
-&nbsp;  pip install -e .
-
-&nbsp;  ```
-
-&nbsp;  This makes `stockmarket` importable (no need to set PYTHONPATH manually).
+```
 
 4\. Install development tools manually (if not installed through requirements):
 
@@ -109,13 +99,13 @@ Key modules :
 
 5\. Install and enable pre-commit hooks (this will install hooks into `.git/hooks`):
 
-&nbsp;  ```powershell
+```powershell
 
 &nbsp;  pre-commit install
 
 &nbsp;  pre-commit install --hook-type commit-msg
 
-&nbsp;  ```
+```
 
 ---
 
@@ -125,21 +115,19 @@ You can experiment from Python REPL with the package installed (editable install
 
 ```powershell
 
-python -c "from src.stockmarket.exchange.market import GBCE; m=GBCE(); print(m.list\_stocks())"
+py -m src.main
 
 ```
 
-Or run a small script that imports `src.stockmarket.\*` modules.
-
 ---
 
-\## Running tests
+## Running tests
 
 Using the installed package (recommended):
 
 ```powershell
 
-python -m unittest discover -s tests -p "test\_\*.py"
+py -m unittest discover -s tests
 
 ```
 
@@ -181,7 +169,9 @@ ruff check .
 
 flake8 --config .flake8 .
 
-mypy -p stockmarket --config-file pyproject.toml --explicit-package-bases=stockmarket=src
+mypy ./src/
+
+mypy ./tests/
 
 ```
 
@@ -216,6 +206,8 @@ Add docstrings in numpydoc style (Parameters / Returns sections) for public API 
 Run tests under coverage and generate a report:
 
 ```powershell
+
+coverage run -m unittest discover -s tests
 
 coverage report -m
 
