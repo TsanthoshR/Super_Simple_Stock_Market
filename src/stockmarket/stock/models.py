@@ -41,7 +41,7 @@ class Stock(ABC):
         last_dividend: float,
         fixed_dividend: float,
         par_value: float,
-    ):
+    ) -> None:
         """Initialize a Stock instance.
 
         Parameters
@@ -204,7 +204,7 @@ class CommonStock(Stock):
         The par value of the stock.
     """
 
-    def __init__(self, symbol: str, last_dividend: float, par_value: float):
+    def __init__(self, symbol: str, last_dividend: float, par_value: float) -> None:
         """Initialize a CommonStock instance.
 
         Parameters
@@ -255,7 +255,7 @@ class PreferredStock(Stock):
 
     def __init__(
         self, symbol: str, last_dividend: float, fixed_dividend: float, par_value: float
-    ):
+    ) -> None:
         """Initialize a PreferredStock instance.
 
         Parameters
@@ -303,41 +303,8 @@ class Trade:
     price: float
     timestamp: datetime
 
-
-# class StockFactory:
-#     """Factory class to create stock instances based on stock type."""
-
-#     @staticmethod
-#     def create_stock(symbol: str,
-#                      stock_type: StockType,
-#                      last_dividend: float,
-#                      fixed_dividend: float,
-#                      par_value: float) -> Stock:
-#         """Create a stock instance based on the stock type."""
-#         if stock_type == StockType.COMMON:
-#             return CommonStock(symbol, stock_type, last_dividend, fixed_dividend, par_value)
-#         elif stock_type == StockType.PREFERRED:
-#             return PreferredStock(symbol, stock_type, last_dividend, fixed_dividend, par_value)
-#         else:
-#             raise ValueError(f"Unknown stock type: {stock_type}")
-
-
-# @dataclass
-# class StockMarket:
-#     """Class representing the stock market."""
-#     stocks: List[Stock] = field(default_factory=list)
-
-#     def add_stock(self, stock: Stock):
-#         """Add a stock to the stock market."""
-#         self.stocks.append(stock)
-
-#     def get_stock(self, symbol: str) -> Stock:
-#         """Retrieve a stock by its symbol."""
-#         for stock in self.stocks:
-#             if stock.symbol == symbol:
-#                 return stock
-#         raise ValueError(f"Stock with symbol {symbol} not found.")
-
-#     def list_stocks(self) -> List[Stock]:
-#         """List all stocks in the stock market."""
-#         return self.stocks
+    def __repr__(self) -> str:
+        return (
+            f"Trade(stock_symbol={self.stock_symbol}, trade_type={self.trade_type.name}, "
+            f"quantity={self.quantity}, price={self.price}, timestamp={self.timestamp})"
+        )
