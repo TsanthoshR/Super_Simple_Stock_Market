@@ -53,7 +53,7 @@ Key modules :
 
 \- `src/stockmarket/exchange/market.py` - GBCE market and its operations
 
-\- `tests/test\_market.py`, `tests/test\_market\_extra.py` - unit tests
+\- `tests/test_*` - unit tests
 
 ---
 
