@@ -14,24 +14,24 @@ if __name__ == "__main__":
 
     # Example 2:
     StockMarketApp2 = GBCE()
-    daily_logger.info(StockMarketApp2.list_stocks())
-    daily_logger.info(StockMarketApp2.get_stock("TEA"))
+    daily_logger.info(f"{StockMarketApp2.list_stocks()}")
+    daily_logger.info(f"{StockMarketApp2.get_stock('TEA')}")
     # print(StockMarketApp.get_stock("TEA").calculate_pe_ratio(100.0))
 
     pop_stock = StockMarketApp2.get_stock("POP")
     if pop_stock is not None:
         daily_logger.info(f"POP P/E Ratio: {pop_stock.calculate_pe_ratio(100.0)}")
         daily_logger.info(
-            "POP dividend yield", pop_stock.calculate_dividend_yield(100.0)
+            f"POP dividend yield {pop_stock.calculate_dividend_yield(100.0)}"
         )
 
     gin_stock = StockMarketApp2.get_stock("GIN")
     if gin_stock is not None:
         daily_logger.info(
-            "GIN dividend yield", gin_stock.calculate_dividend_yield(100.0)
+            f"GIN dividend yield {gin_stock.calculate_dividend_yield(100.0)}"
         )
         daily_logger.info(
-            "GIN dividend yield", gin_stock.calculate_dividend_yield(100.0)
+            f"GIN dividend yield {gin_stock.calculate_dividend_yield(100.0)}"
         )
 
     # print("JOE dVWSP", StockMarketApp.get_stock("GIN").calculate_volume_weighted_stock_price())
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     )
     JOE_Stock = StockMarketApp2.get_stock("JOE")
     assert JOE_Stock is not None
-    daily_logger.info("JOE VWSP", JOE_Stock.calculate_volume_weighted_stock_price())
+    daily_logger.info(f"JOE VWSP {JOE_Stock.calculate_volume_weighted_stock_price()}")
     #
 
     # StockMarketApp2.record_trade("TEA", "buy", 100, 110.0)
@@ -49,15 +49,14 @@ if __name__ == "__main__":
 
     # Example 3:
     SM3 = GBCE()
-    daily_logger.info(SM3.list_stocks())
+    daily_logger.info(f"{SM3.list_stocks()}")
 
     # print("JOE dVWSP", StockMarketApp.get_stock("GIN").calculate_volume_weighted_stock_price())
     SM3.record_trade(symbol="JOE", trade_type=TradeType.BUY, quantity=100, price=200.0)
     joe_stock = SM3.get_stock("JOE")
     if joe_stock is not None:
         daily_logger.info(
-            "JOE VWSP",
-            joe_stock.calculate_volume_weighted_stock_price(),
+            f"JOE VWSP {joe_stock.calculate_volume_weighted_stock_price()}"
         )
 
     SM3.record_trade(symbol="TEA", trade_type=TradeType.SELL, quantity=100, price=100.0)
