@@ -3,6 +3,7 @@
 import timeit
 import unittest
 
+from my_logger import daily_logger
 from src.stockmarket.exchange.market import GBCE
 from src.stockmarket.stock.enums import TradeType
 from src.stockmarket.stock.models import CommonStock
@@ -33,11 +34,13 @@ class TestGBCEPerformance(unittest.TestCase):
                 )
 
         duration = timeit.timeit(record_trades, number=10)
-        print(f"Recording trades for 100 stocks took {duration:.4f} seconds.")
+        daily_logger.info(
+            f"Recording trades for 100 stocks took {duration:.4f} seconds."
+        )
 
         self.assertLess(duration, 0.5, "Recording trades took too long.")
 
-    def test_vwap_performance(self):
+    def test_vwap_performance(self) -> None:
         """Test performance of calculating VWAP for all stocks."""
         # First, record some trades to have data for VWAP calculation
         for symbol in self.stock_symbols:
@@ -48,14 +51,17 @@ class TestGBCEPerformance(unittest.TestCase):
                 price=100.0,
             )
 
-        def calculate_vwap_all():
+        def calculate_vwap_all() -> None:
             """Calculate VWAP for all test stocks."""
             for symbol in self.stock_symbols:
                 stock = self.market.get_stock(symbol)
-                stock.calculate_volume_weighted_stock_price()
+                if stock:
+                    stock.calculate_volume_weighted_stock_price()
 
         duration = timeit.timeit(calculate_vwap_all, number=10)
-        print(f"Calculating VWAP for 100 stocks took {duration:.4f} seconds.")
+        daily_logger.info(
+            f"Calculating VWAP for 100 stocks took {duration:.4f} seconds."
+        )
 
         self.assertLess(duration, 0.5, "VWAP calculation took too long.")
 
@@ -71,7 +77,9 @@ class TestGBCEPerformance(unittest.TestCase):
             )
 
         duration = timeit.timeit(self.market.calculate_gbce_all_share_index, number=10)
-        print(f"Calculating GBCE All Share Index took {duration:.4f} seconds.")
+        daily_logger.info(
+            f"Calculating GBCE All Share Index took {duration:.4f} seconds."
+        )
         self.assertLess(
             duration, 0.5, "GBCE All Share Index calculation took too long."
         )

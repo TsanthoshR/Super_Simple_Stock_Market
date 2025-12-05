@@ -4,10 +4,9 @@ from math import prod
 
 from my_logger import daily_logger
 from src.stockmarket.stock.enums import TradeType
-from src.stockmarket.stock.exceptions import InvalidTradeError
+from src.stockmarket.stock.exceptions import InvalidTradeError, NoTradeError
 from src.stockmarket.stock.models import (
     CommonStock,
-    NoTradeError,
     PreferredStock,
     Stock,
 )

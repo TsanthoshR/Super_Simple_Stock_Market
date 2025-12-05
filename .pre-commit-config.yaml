@@ -31,6 +31,8 @@ repos:
     pass_filenames: false
     args:
       - --show-error-codes
+      - --strict
+      - --pretty
       - --disallow-untyped-defs
       - --disallow-incomplete-defs
       - --disallow-untyped-calls
@@ -99,7 +101,7 @@ repos:
 #     - --config=pyproject.toml
 
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.17.0
+  rev: v3.21.2
   hooks:
   - id: pyupgrade
 
