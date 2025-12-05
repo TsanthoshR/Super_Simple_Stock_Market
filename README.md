@@ -1,5 +1,8 @@
 # Super Simple Stock Market
 
+![Tests](https://github.com/TsanthoshR/Super_Simple_Stock_Market/actions/workflows/tests.yml/badge.svg)
+
+---
 A small Python project that implement phase 1 functionality of a Global Beverage Corporation Exchange (GBCE).
 This repository contains models for stocks and trades, a simple market implementation (GBCE), test suites,
 and a pre-commit configuration with linters and static analysis tools.
@@ -219,7 +222,3 @@ coverage report -m
 coverage html  # creates htmlcov/ index.html
 
 ```
-
-![Tests](https://github.com/TsanthoshR/Super_Simple_Stock_Market/actions/workflows/tests.yml/badge.svg)
-
----
