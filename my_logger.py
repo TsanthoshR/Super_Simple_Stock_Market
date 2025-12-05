@@ -4,6 +4,7 @@ This module sets up daily and monthly loggers to capture application events
 """
 
 import logging
+import os
 
 from src.func_libs.take_date import TakeDate
 
@@ -21,10 +22,14 @@ monthly_logger = logging.getLogger("monthly_logger")
 daily_logger.setLevel(logging.DEBUG)
 monthly_logger.setLevel(logging.DEBUG)
 
+# Ensure logs directory exists
+LOG_DIR = "logs"
+os.makedirs(LOG_DIR, exist_ok=True)
+
 # Create handlers
 stream_daily_handler = logging.StreamHandler()
-file_daily_handler = logging.FileHandler(f"logs/daily_log_{today}.log")
-file_monthly_handler = logging.FileHandler(f"logs/monthly_log_{month}.log")
+file_daily_handler = logging.FileHandler(f"{LOG_DIR}/daily_log_{today}.log")
+file_monthly_handler = logging.FileHandler(f"{LOG_DIR}/monthly_log_{month}.log")
 # email_handler = logging.handlers.SMTPHandler(
 #     mailhost=("smtp.example.com", 587),
 #     fromaddr="santhosht529@gmail.com",
